@@ -1,0 +1,203 @@
+<head>
+  <title>Items2</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+  {{> page}}
+</body>
+
+<template name="page">
+  {{#if showCreateDialog}}
+    {{> createDialog}}
+  {{/if}}
+
+  
+   {{#if showEligibilityDialog}}
+    {{> eligibilityDialog}}
+    {{/if}}
+
+  <div class="container">
+    <div class="row">
+      <div class="span1"> </div>
+
+      <div class="span12">
+        <div class="header row">
+          <div class="span8">
+            <!--h3 style="margin-bottom: 0px">On Sale</h3-->
+          </div> 
+          <div class="span4">
+            <div style="float: right">
+              {{loginButtons align="right"}}
+            </div> 
+          </div> 
+        </div> 
+        <div class="row">
+          <div class="span8">
+	    {{> itemgrid}} 
+	  </div>
+          <div class="span4">
+            {{> details}}
+           </div> 
+          </div> 
+  </div>  
+
+      </div> 
+
+      <div class="span1"> </div>
+    </div> 
+  </div> 
+</template>
+
+
+<template name="itemgrid">
+<div>
+  <div class="modal-body">
+  {{#each eligibleItems}}
+   <div class="featurette-image pull-left">
+	<img class="img-circle" src="{{pictures}}" height="120" width="120">
+   </div>
+  {{/each}}
+  </div>
+</div>
+</template>
+
+
+<template name="details">
+<div class="details">
+  
+   <button id="createitem" type="button" class="btn btn-primary createitem" >Simply Sell</button>	 
+    {{#if item}}
+      {{#with item}}
+        <h1>{{title}}</h1>
+
+        <div class="description">{{description}}</div>
+        <div class="price">{{price}}</div>
+        <div class="pictures">{{pictures}}</div>
+        {{#if canRemove}}
+          <div class="alert alert-info"><small>
+              You posted this party and nobody is signed up to go, so if
+              you like, you could
+              <b><a href="#" class="remove">Delete this listing</a></b>.
+          </small></div>
+        {{/if}} 
+      {{/with}}
+    {{else}}
+     
+    {{/if}}
+
+
+ </div>
+</template>
+
+
+<template name="invited">
+  <div class="attendance well well-small">
+    <div class="muted who"><b>Who</b></div>
+    {{#if public}}
+      <div>
+        <b>Everyone</b>
+        <span class="label label-inverse pull-right">Invited</span>
+      </div>
+    {{/if}}
+
+    {{#each messages}}
+      <div>
+        {{userName}}
+	<span class="label label-success pull-right">{{message}}</span>
+      </div>
+    {{/each}}
+
+      {{#each outstandingInvitations}}
+        <div>
+          {{invitationName}}
+          <span class="label label-inverse pull-right">Invited</span>
+        </div>
+      {{/each}}
+
+    {{#if nobody}}
+      <div>Nobody.</div>
+    {{/if}}
+
+    {{#if canInvite}}
+      <div class="invite">
+        <a href="#" class="btn btn-mini invite">Invite people</a>
+      </div>
+    {{/if}}
+  </div>
+</template>
+
+<template name="createDialog">
+<div class="mask"> </div>
+<div class="modal">
+    <div class="modal-header">
+      <button type="button" class="close cancel">&times;</button>
+      <h3>Sell Simply</h3>
+    </div>
+
+    <div>
+    <div class="modal-body">
+
+      {{#if error}}
+        <div class="alert alert-error">{{error}}</div>
+      {{/if}}
+
+      <label>Title</label>
+      <input type="text" class="title span4">
+
+      <label>Description</label>
+      <textarea class="description span4"></textarea>
+
+      <label>Price</label>
+      <!--textarea class="price span5"></textarea-->
+
+<div class="input-prepend input-append">
+  <span class="add-on">$</span>
+  <input class="price span3" id="price" type="text">
+  <span class="add-on">.00</span>
+</div>
+
+
+
+      <label>Photopath</label>
+      <textarea class="photopath span4"></textarea>
+
+      <label class="checkbox">Private Selling
+	      <input type="checkbox" class="private"/>
+       </label>	      
+      <label class="checkbox">Facebook
+	      <input type="checkbox" class="facebook"/>
+</label>
+      <label class="checkbox">Twitter
+	      <input type="checkbox" class="twitter"/>
+	      </label>
+    </div>
+
+    <div class="modal-footer">
+      <a href="#" class="btn cancel">Cancel</a>
+      <a href="#" class="btn btn-primary save">Add item</a>
+    </div>
+</div>
+</template>
+
+<template name="eligibilityDialog">
+<div class="mask"> </div>
+<div class="modal">
+    <div class="modal-header">
+      <button type="button" class="close done">&times;</button>
+      <h3>Share your sale</h3>
+    </div>
+
+    <div class="modal-body">
+      {{#each noneligible}}
+      <label class="checkbox">{{displayName}}
+	      <input type="checkbox" class="invite"/>
+      </label>	 
+      {{/each}}
+    </div>
+
+    <div class="modal-footer">
+      <a href="#done" class="btn btn-primary done">Done</a>
+    </div>
+</div>
+</template>
